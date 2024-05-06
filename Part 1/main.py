@@ -14,8 +14,8 @@ def eval_argument(arg):
     argument = {}
 
     # run argument through the model
-    result = pipe(row_data['argument'])
-    argument[row_data['argument']] = round((result[0])['score'], 3)
+    result = pipe(arg)
+    argument[arg] = round((result[0])['score'], 3)
     
     return argument
 

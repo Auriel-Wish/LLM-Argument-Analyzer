@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask Textbox Example</title>
+</head>
+<body>
+    <h1>Send Text Data to Flask</h1>
+    
+    <!-- Form with a textbox and a submit button -->
+    <form id="text-form">
+        <label for="user_text">Enter some text:</label>
+        <input type="text" id="user_text" name="user_text" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- JavaScript to handle form submission -->
+    <script>
+        document.getElementById("text-form").addEventListener("submit", function(event) {
+            event.preventDefault();  // Prevent form from refreshing the page
+
+            // Get the text from the textbox
+            const userText = document.getElementById("user_text").value;
+
+            // Send a POST request to the Flask backend
+            fetch("/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `user_text=${encodeURIComponent(userText)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Response from Flask:", data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        });
+    </script>
+</body>
+</html>
