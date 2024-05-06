@@ -1,0 +1,50 @@
+{'.a multi-party system would be too confusing and getting a consensus from the general public would be difficult.': 0.902}
+{'\\ero-tolerance policy in schools should not be adopted as circumstances are often not black and white, being more nuanced. no one should be written off due to a mistake of judgement.': 0.56}
+{'`people reach their limit when it comes to their quality of life and should be able to end their suffering.  this can be done with little or no suffering  by assistance and the person is able to say good bye.': 0.903}
+{'100% agree, should they do that, it would be a good thing': 0.922}
+{'6 million people died so to deny the holocaust should be a crime against their memory': 0.81}
+{"a bad score in an intelligence test is a blow to our children's drive and self esteem, reducing motivation and causing harm.": 0.787}
+{"a bad score in an intelligence test is a blow to people sense of worth, hurting not only their feeling's but also this society's development.": 0.83}
+{'A ban on naturopathy creates a cohesive front between scientists and the government that can combat the anti-science rhetoric of naturopathic industries.': 0.502}
+{'A ban would be disasterous for the surrogate mothers. Surrogacy will happenn anyway, because the need for it exists, but there will be no health and legal standards for the proccess.': 0.914}
+{"A ban would be inffective, people who want a baby so badly, will find a way to go through with it. Either illegaly or in some foresaken country which doesn't ban it.": 0.941}
+{'a ban would only bring problems in gender equality': 0.924}
+{'a ban would only increase the already concerning trend to go to dangerous surgeons abroad': 0.927}
+{'A ban would send a strong message that better business practices are needed.': 0.918}
+{'A basic principle of punishment is that it should be proportional to the crime, and therefore capital punishment is the only legitimate response to a crime such as first degree murder.': 0.919}
+{"a birth defect or a disfiguring injury can highly impact someone's self esteem, with parental permission minors should have the opportunity to correct this.": 0.939}
+{'a blockade is sometimes the only non-violent option available in trying to force a diplomatic hand.': 0.855}
+{'A Blockade is the perfect way to create stagnation on both sides': 0.51}
+{'A blockade is what you do when you want any chance for peace eliminated and for both nations to grow suspicious towards each other': 0.857}
+{'A Canadian study published online in the journal Neuron concluded that the IQ test is fundamentally flawed, seeing that its questions grossly oversimplify the abilities of the human brain': 0.507}
+{"A centralized system of criminal defense would mean that all people would have access to the same standard of legal counsel, meaning that wealth and power can't be used to avoid justice.": 0.913}
+{'a child cannot just walk into a cosmetic surgeons and get unnecessary surgery, parental consent and medical regulations are in place to ensure this is only conducted safely and on worthy cases of deformity': 0.895}
+{'a child is a gift and should be cherished for whatever sex they are': 0.899}
+{'a child is still growing, physically and mentally, cosmetic surgery should not be considered until they are an adult and able to make these decisions': 0.915}
+{'a child who is the result of human cloning will have psychological problems because they are not allowed to be their own person': 0.978}
+{"a child's body is still developing and the faults that a child sees in themselves may resolve when they're an adult": 0.955}
+{"a child's value should not be based upon their sex.  they are human no matter what.": 0.941}
+{'a city is the best place for people to have what they need near by': 0.772}
+{'A collectivist culture cultivates desirable values such as being kind, generous, and attentive to the needs of others.': 0.514}
+{'a college degree is no longer a guarantee that you will have a job nor is it even required for decent careers anymore. it is a waste of money as most degrees are becoming obsolete.': 0.676}
+{'a college education is too expensive for most people to afford.  yet, it is almost a requirement to get a great job.  by helping to pay student loans we are also helping our economy and providing better jobs.': 0.903}
+{'a company can pay an executive anything it wants.  if the person is a great value to his company his salary no matter how high is worth it.': 0.672}
+{'a company can pay higher to their employees if executive compensation is limited': 0.778}
+{'a company has the right to determine how much executive compensation that they can pay out.': 0.687}
+{'a company should be able to decide on their own how much they want to pay any of their employees': 0.5}
+{'a company should be able to pay whatever they need to to attract the right talent. they will only pay what the market determines the person is worth.': 0.676}
+{'a compulsory vote we make everyone contribute their opinion.': 0.893}
+{"a constantly growing population requires large volumes of food are needed at a constant pace all year, which can't be provided by less intensive farming, so we absolutely retain at least some factory techniques": 0.88}
+{"a consumer doesn't know what's really in natural remedies since there is no regulation": 0.652}
+{'a cosmetic procedure may be necessary for a horribly scarred child.': 0.941}
+{'A country is entitled to develop any weapon that will help it defend itself against an enemy.': 0.953}
+{'a country should have the right to defend itself in whatever way it sees fit even if they do not intend to use nuclear weapons.': 0.964}
+{'A country with a diverse population is better represented by a multi-party system.': 0.909}
+{'a country would fall apart under libertarianism as there is not any good oversight of the people.': 0.597}
+{"A couple doesn't have to bind themselves legally to one another, by marrying, to prove their love.": 0.591}
+{'a criminal that offends two times is likely to keep committing crimes so the three strikes law would keep them out of the public earlier for the better': 0.961}
+{'a criminal will think twice about committing a crime knowing that the next crime he commits might mean life imprisonment.': 0.958}
+{"a cure or treatment may be discovered shortly after having ended someone's life unnecessarily.": 0.928}
+{'a defendant has a right to defend himself': 0.744}
+{'a democratic and free society is said to respect bodily autonomy, therefore we should have the right to do what we want with our organs, including using them in a legal organ trade': 0.922}
+{'a disadvantage of naturopathy is when natural medicines are taken to treat medical conditions without seeking qualified medical help': 0.698}
