@@ -1,17 +1,30 @@
+# Auriel Wish
+# Trial Project: Summer 2024 Internship
+# ----------------------------------------------------------------
+
+import csv
 from transformers import pipeline
 
-# Initialize a text classification pipeline with the specific model
+# Initialize roberta-argument model
 pipe = pipeline("text-classification", model="chkla/roberta-argument")
+filepath = 'IBM_Debater_(R)_arg_quality_rank_30k/arg_quality_rank_30k.csv'
 
-# Define some text to classify
-input_text = "It has been determined that the amount of greenhouse gases have decreased by almost half because of the prevalence in the utilization of nuclear power."
+def eval_argument(arg):
+    # keep track of argument/argument quality pair
+    argument = {}
 
-# Classify the input text
-classification_results = pipe(input_text)
+    # run argument through the model
+    result = pipe(row_data['argument'])
+    argument[row_data['argument']] = round((result[0])['score'], 3)
+    
+    return argument
 
-# Display the classification results
-for result in classification_results:
-    label = result['label']  # The label (ARGUMENT or NON-ARGUMENT)
-    score = result['score']  # The confidence score
-
-print(f"Label: {label}, Score: {score:.4f}")
+# evaluate arguments from IBM csv file
+with open(filepath, 'r') as file:
+    reader = csv.DictReader(file)
+    for i, row_data in enumerate(reader):
+        if (i == 0):
+            continue
+        if (i > 50):
+            break
+        print(eval_argument(row_data['argument']))
