@@ -24,20 +24,31 @@
             padding: 40px;
             border-radius: 10px;
             background-color: rgb(152, 193, 255);
-            width: 50%;
+            width: 80%;
             color: white;
             box-shadow: 1px 1px 10px rgba(211, 211, 211, 0.701);
         }
 
+        td {
+            padding: 20px;
+        }
+
+        table {
+            margin: auto;
+        }
+
+        table * {
+            text-align: center;
+        }
 
         label {
-            font-size: 40px;
+            font-size: 30px;
         }
 
         textarea {
             border: 1px solid rgb(0, 36, 91);
             border-radius: 10px;
-            width: 100%;
+            width: 80%;
             padding: 10px;
         }
 
@@ -62,16 +73,34 @@
     <h1>Argument Analyzer</h1>
     
     <div>
-        <form id="arg_form">
-            <label for="user_argument">Argument:</label>
-            <br><br>
-            <textarea id="user_argument" rows="5" required></textarea>
-            <br>
-            <button type="submit">Submit</button>
-        </form>
+        <table>
+            <tr>
+                <td>
+                    <form id="arg_form_premade">
+                        <label for="user_argument1">Argument for <em>Premade Model:</em></label>
+                        <br><br>
+                        <textarea id="user_argument1" rows="5" required></textarea>
+                        <br>
+                        <button type="submit">Submit</button>
+                    </form>
 
-        <h2 id="output"></h2>
-        <p id="qualitative"></p>
+                    <h2 id="output1">Argument Score:</h2>
+                    <p id="qualitative1">This argument is:</p>
+                </td>
+                <td>
+                    <form id="arg_form_IBM">
+                        <label for="user_argument2">Argument for <em>IBM Trained Model:</em></label>
+                        <br><br>
+                        <textarea id="user_argument2" rows="5" required></textarea>
+                        <br>
+                        <button type="submit">Submit</button>
+                    </form>
+
+                    <h2 id="output2">Argument Score:</h2>
+                    <p id="qualitative2">This argument is:</p>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <script>
@@ -81,16 +110,16 @@
             return Math.round(number / increment) * increment;
         }
 
-        document.getElementById("arg_form").addEventListener("submit", function(e) {
+        document.getElementById("arg_form_premade").addEventListener("submit", function(e) {
             e.preventDefault();
-            document.getElementById("output").innerHTML = "Analyzing...";
-            document.getElementById("qualitative").innerHTML = "";
+            document.getElementById("output1").innerHTML = "Analyzing...";
+            document.getElementById("qualitative1").innerHTML = "...";
 
             // Get the text from the textbox
-            const user_argument = document.getElementById("user_argument").value;
+            const user_argument = document.getElementById("user_argument1").value;
 
             // Send POST request to the backend
-            fetch("/get_analysis", {
+            fetch("/get_analysis_premade", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
@@ -99,12 +128,39 @@
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById("output").innerHTML = "Argument Score: " + data;
-                document.getElementById("qualitative").innerHTML = "This argument is: " + argument_quality[round_to_nearest_20(data * 100, 20)];
+                document.getElementById("output1").innerHTML = "Argument Score: " + data;
+                document.getElementById("qualitative1").innerHTML = "This argument is: " + argument_quality[round_to_nearest_20(data * 100, 20)];
             })
             .catch(error => {
                 console.error("Error:", error);
-                document.getElementById("output").innerHTML = "Error: " + error;
+                document.getElementById("output1").innerHTML = "Error: " + error;
+            });
+        });
+
+        document.getElementById("arg_form_IBM").addEventListener("submit", function(e) {
+            e.preventDefault();
+            document.getElementById("output2").innerHTML = "Analyzing...";
+            document.getElementById("qualitative2").innerHTML = "...";
+
+            // Get the text from the textbox
+            const user_argument = document.getElementById("user_argument2").value;
+
+            // Send POST request to the backend
+            fetch("/get_analysis_IBM", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `user_argument=${encodeURIComponent(user_argument)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("output2").innerHTML = "Argument Score: " + data;
+                document.getElementById("qualitative2").innerHTML = "This argument is: " + argument_quality[round_to_nearest_20(data * 100, 20)];
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("output2").innerHTML = "Error: " + error;
             });
         });
     </script>
