@@ -1,52 +1,110 @@
+<!--
+  -- Auriel Wish
+  -- Trial Project: Summer 2024 Internship
+  --
+  -- index.html
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Flask Textbox Example</title>
-</head>
-<body>
-    <h1>Send Text Data to Flask</h1>
-    
-    <!-- Form with a textbox and a submit button -->
-    <form id="text-form">
-        <label for="user_text">Enter some text:</label>
-        <input type="text" id="user_text" name="user_text" required>
-        <button type="submit">Submit</button>
-    </form>
-
-    <h2 id="output"></h2>
-    <p id="qualitative"></p>
-
-    <!-- JavaScript to handle form submission -->
-    <script>
-        const argument_quality = {0:"Not an argument", 20:"Poor", 40:"Okay", 60:"Good", 80:"Great", 100:"Excellent"};
-
-        function round(number, increment, offset) {
-            return Math.ceil((number - offset) / increment ) * increment + offset;
+    <title>Trial Project</title>
+    <style>
+        html {
+            margin: 0;
         }
 
-        document.getElementById("text-form").addEventListener("submit", function(event) {
-            event.preventDefault();  // Prevent form from refreshing the page
+        h1 {
+            text-align: center;
+        }
+
+        div {
+            margin-right: auto;
+            margin-left: auto;
+            padding: 40px;
+            border-radius: 10px;
+            background-color: rgb(152, 193, 255);
+            width: 50%;
+            color: white;
+            box-shadow: 1px 1px 10px rgba(211, 211, 211, 0.701);
+        }
+
+
+        label {
+            font-size: 40px;
+        }
+
+        textarea {
+            border: 1px solid rgb(0, 36, 91);
+            border-radius: 10px;
+            width: 100%;
+            padding: 10px;
+        }
+
+        button {
+            background-color: rgb(91, 129, 187);
+            border-radius: 10px;
+            transition: 0.15s;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 30px;
+            padding: 10px;
+            color: white;
+        }
+
+        button:hover {
+            background-color: rgb(0, 36, 91);
+        }
+    </style>
+</head>
+<body>
+    <h1>Argument Analyzer</h1>
+    
+    <div>
+        <form id="arg_form">
+            <label for="user_argument">Argument:</label>
+            <br><br>
+            <textarea id="user_argument" rows="5" required></textarea>
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+
+        <h2 id="output"></h2>
+        <p id="qualitative"></p>
+    </div>
+
+    <script>
+        const argument_quality = {0:"Bad", 20:"Poor", 40:"Okay", 60:"Good", 80:"Great", 100:"Excellent"};
+
+        function round_to_nearest_20(number, increment) {
+            return Math.round(number / increment) * increment;
+        }
+
+        document.getElementById("arg_form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            document.getElementById("output").innerHTML = "Analyzing...";
+            document.getElementById("qualitative").innerHTML = "";
 
             // Get the text from the textbox
-            const userText = document.getElementById("user_text").value;
+            const user_argument = document.getElementById("user_argument").value;
 
-            // Send a POST request to the Flask backend
-            fetch("/submit", {
+            // Send POST request to the backend
+            fetch("/get_analysis", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
                 },
-                body: `user_text=${encodeURIComponent(userText)}`
+                body: `user_argument=${encodeURIComponent(user_argument)}`
             })
             .then(response => response.json())
             .then(data => {
                 document.getElementById("output").innerHTML = "Argument Score: " + data;
-                document.getElementById("qualitative").innerHTML = "This argument is: " + argument_quality[round(data * 100, 20, 0)];
-                console.log("Response from Flask:", data);
+                document.getElementById("qualitative").innerHTML = "This argument is: " + argument_quality[round_to_nearest_20(data * 100, 20)];
             })
             .catch(error => {
                 console.error("Error:", error);
+                document.getElementById("output").innerHTML = "Error: " + error;
             });
         });
     </script>
