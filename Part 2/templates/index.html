@@ -14,8 +14,17 @@
         <button type="submit">Submit</button>
     </form>
 
+    <h2 id="output"></h2>
+    <p id="qualitative"></p>
+
     <!-- JavaScript to handle form submission -->
     <script>
+        const argument_quality = {0:"Not an argument", 20:"Poor", 40:"Okay", 60:"Good", 80:"Great", 100:"Excellent"};
+
+        function round(number, increment, offset) {
+            return Math.ceil((number - offset) / increment ) * increment + offset;
+        }
+
         document.getElementById("text-form").addEventListener("submit", function(event) {
             event.preventDefault();  // Prevent form from refreshing the page
 
@@ -32,6 +41,8 @@
             })
             .then(response => response.json())
             .then(data => {
+                document.getElementById("output").innerHTML = "Argument Score: " + data;
+                document.getElementById("qualitative").innerHTML = "This argument is: " + argument_quality[round(data * 100, 20, 0)];
                 console.log("Response from Flask:", data);
             })
             .catch(error => {
