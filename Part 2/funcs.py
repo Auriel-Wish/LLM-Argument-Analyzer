@@ -6,13 +6,16 @@
 from transformers import pipeline
 
 def eval_argument(arg):
-    pipe = pipeline("text-classification", model="chkla/roberta-argument")
+    pipe = pipeline("text-classification", model="chkla/roberta-argument", return_all_scores=True)
 
     # run argument through the model
-    # invert the score if NON_ARGUMENT value is greater than ARGUMENT value
-    result = pipe(arg)
-    if (result[0])['label'] == 'NON-ARGUMENT':
-        (result[0])['score'] = 1 - (result[0])['score']
-    if (result[0])['score'] < 0.01:
-        (result[0])['score'] = 0
-    return (round((result[0])['score'], 2))
+    result = (pipe(arg))[0]
+    arg_val = -1
+    for res in result:
+        if res['label'] == 'ARGUMENT':
+            arg_val = res['score']
+            break
+
+    if arg_val < 0.01:
+        arg_val = 0
+    return (round(arg_val, 2))
