@@ -6,7 +6,7 @@
 
 <h2>Parts-2-and-3</h2> This folder contains the code that runs the web app. The backend code is in funcs.py and main.py. The frontend code is in templates/index.html. The web app allows the user to input an argument and recieve analysis on it. It allows for lengthy argument inputs. If the argument is too long to run through the analysis models, it is run through a summarization model that shortens the argument (but keeps its ideas). It does this over and over until the argument is short enough to pass through the analysis models. The user can choose whether to send the argument through a model trained on the IBM dataset or a different trained model from HuggingFace.
 
-The analysis performed on the argument includes:
+The analysis performed on the argument by different LLMs includes:
 <ol>
     <li>Strength of the argument (number between 0 and 1)</li>
     <li>Components of the argument (such as conflict, rephrase, ...etc)</li>
