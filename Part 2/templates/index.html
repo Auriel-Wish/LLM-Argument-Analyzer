@@ -18,7 +18,7 @@
             text-align: center;
         }
 
-        div {
+        #form_container {
             margin-right: auto;
             margin-left: auto;
             padding: 40px;
@@ -29,26 +29,18 @@
             box-shadow: 1px 1px 10px rgba(211, 211, 211, 0.701);
         }
 
-        td {
-            padding: 20px;
-        }
-
-        table {
-            margin: auto;
-        }
-
-        table * {
+        .model {
+            font-size: 25px;
+            color: rgb(0, 36, 91);
             text-align: center;
-        }
-
-        label {
-            font-size: 30px;
+            margin-left: 20px;
+            margin-right: 20px;
         }
 
         textarea {
             border: 1px solid rgb(0, 36, 91);
             border-radius: 10px;
-            width: 80%;
+            width: 100%;
             padding: 10px;
         }
 
@@ -71,55 +63,64 @@
 </head>
 <body>
     <h1>Argument Analyzer</h1>
+
+    <div style="text-align: center; width: 100%">
+        <label class="model">
+            <input type="radio" name="model" value="premade"> Premade Model
+        </label>
+        <label class="model">
+            <input type="radio" name="model" value="IBM"> IBM Set Trained Model
+        </label>
+    </div>
     
-    <div>
-        <table>
-            <tr>
-                <td>
-                    <form id="arg_form_premade">
-                        <label for="user_argument1">Argument for <em>Premade Model:</em></label>
-                        <br><br>
-                        <textarea id="user_argument1" rows="5" required></textarea>
-                        <br>
-                        <button type="submit">Submit</button>
-                    </form>
+    <div id="form_container">
+        <form id="arg_form">
+            <label for="user_argument" style="font-size: 25px">Argument:</label>
+            <br><br>
+            <textarea id="user_argument" rows="5" required></textarea>
+            <br>
+            <button type="submit">Submit</button>
+        </form>
 
-                    <h2 id="output1">Argument Score:</h2>
-                    <p id="qualitative1">This argument is:</p>
-                </td>
-                <td>
-                    <form id="arg_form_IBM">
-                        <label for="user_argument2">Argument for <em>IBM Trained Model:</em></label>
-                        <br><br>
-                        <textarea id="user_argument2" rows="5" required></textarea>
-                        <br>
-                        <button type="submit">Submit</button>
-                    </form>
-
-                    <h2 id="output2">Argument Score:</h2>
-                    <p id="qualitative2">This argument is:</p>
-                </td>
-            </tr>
-        </table>
+        <h2 id="output"></h2>
+        <p id="qualitative"></p>
+        <p id="arg_breakdown"></p>
     </div>
 
     <script>
+        (document.querySelectorAll('input[name="model"]'))[0].checked = true;
+
         const argument_quality = {0:"Bad", 20:"Poor", 40:"Okay", 60:"Good", 80:"Great", 100:"Excellent"};
+        const arg_eval_meaning = {
+            "No-Relation":"parts of your argument are unrelated", 
+            "Inference":"parts of your argument are used to support or justify the other",
+            "Conflict":"propositions in your argument have contradictory information",
+            "Rephrase":"parts of your argument are equivalent from an argumentative point of view"
+        }
 
         function round_to_nearest_20(number, increment) {
             return Math.round(number / increment) * increment;
         }
 
-        document.getElementById("arg_form_premade").addEventListener("submit", function(e) {
+        document.getElementById("arg_form").addEventListener("submit", function(e) {
             e.preventDefault();
-            document.getElementById("output1").innerHTML = "Analyzing...";
-            document.getElementById("qualitative1").innerHTML = "...";
+            document.getElementById("output").innerHTML = "Analyzing...";
+            document.getElementById("qualitative").innerHTML = "";
+            document.getElementById("arg_breakdown").innerHTML = "";
 
             // Get the text from the textbox
-            const user_argument = document.getElementById("user_argument1").value;
+            const user_argument = document.getElementById("user_argument").value;
+
+            fetch_link = "";
+            if ((document.querySelectorAll('input[name="model"]'))[0].checked) {
+                fetch_link = "/get_analysis_premade";
+            }
+            else {
+                fetch_link = "/get_analysis_IBM";
+            }
 
             // Send POST request to the backend
-            fetch("/get_analysis_premade", {
+            fetch(fetch_link, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
@@ -128,8 +129,19 @@
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById("output1").innerHTML = "Argument Score: " + data;
-                document.getElementById("qualitative1").innerHTML = "This argument is: " + argument_quality[round_to_nearest_20(data * 100, 20)];
+                quality = data[0];
+                document.getElementById("output").innerHTML = "Argument Score: " + quality;
+                document.getElementById("qualitative").innerHTML = "This argument is: " + argument_quality[round_to_nearest_20(quality * 100, 20)];
+
+                evals = data[1];
+                eval_string = "Your argument contains:<br><ul>";
+                for (var i = 0; i < evals.length; i++) {
+                    if (evals[i]['score'] > 0.15) {
+                        eval_string += ("<li>" + evals[i]['label'] + " - " + arg_eval_meaning[evals[i]['label']] + "</li>");
+                    }
+                }
+                eval_string += "</ul>"
+                document.getElementById("arg_breakdown").innerHTML = eval_string;
             })
             .catch(error => {
                 console.error("Error:", error);
@@ -137,32 +149,32 @@
             });
         });
 
-        document.getElementById("arg_form_IBM").addEventListener("submit", function(e) {
-            e.preventDefault();
-            document.getElementById("output2").innerHTML = "Analyzing...";
-            document.getElementById("qualitative2").innerHTML = "...";
+        // document.getElementById("arg_form_IBM").addEventListener("submit", function(e) {
+        //     e.preventDefault();
+        //     document.getElementById("output2").innerHTML = "Analyzing...";
+        //     document.getElementById("qualitative2").innerHTML = "...";
 
-            // Get the text from the textbox
-            const user_argument = document.getElementById("user_argument2").value;
+        //     // Get the text from the textbox
+        //     const user_argument = document.getElementById("user_argument2").value;
 
-            // Send POST request to the backend
-            fetch("/get_analysis_IBM", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: `user_argument=${encodeURIComponent(user_argument)}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("output2").innerHTML = "Argument Score: " + data;
-                document.getElementById("qualitative2").innerHTML = "This argument is: " + argument_quality[round_to_nearest_20(data * 100, 20)];
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                document.getElementById("output2").innerHTML = "Error: " + error;
-            });
-        });
+        //     // Send POST request to the backend
+        //     fetch("/get_analysis_IBM", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/x-www-form-urlencoded"
+        //         },
+        //         body: `user_argument=${encodeURIComponent(user_argument)}`
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         document.getElementById("output2").innerHTML = "Argument Score: " + data;
+        //         document.getElementById("qualitative2").innerHTML = "This argument is: " + argument_quality[round_to_nearest_20(data * 100, 20)];
+        //     })
+        //     .catch(error => {
+        //         console.error("Error:", error);
+        //         document.getElementById("output2").innerHTML = "Error: " + error;
+        //     });
+        // });
     </script>
 </body>
 </html>

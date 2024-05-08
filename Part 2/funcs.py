@@ -30,3 +30,14 @@ def eval_argument_IBM(arg):
     if arg_val < 0.01:
         arg_val = 0
     return (round(arg_val, 2))
+
+def breakdown_argument(arg):
+    pipe = pipeline("text-classification", model="raruidol/ArgumentMining-EN-ARI-AIF-RoBERTa_L", return_all_scores=True)
+
+    # run argument through the model
+    result = (pipe(arg))[0]
+
+    for res in result:
+        res['score'] = round(res['score'], 2)
+
+    return result
