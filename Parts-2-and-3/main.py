@@ -4,7 +4,7 @@
 # backend.py
 # ----------------------------------------------------------------
 from flask import Flask, request, jsonify, render_template
-from funcs import eval_argument_premade, eval_argument_IBM, breakdown_argument, summarize
+from funcs import eval_argument_premade, eval_argument_IBM, breakdown_argument, summarize, get_feedback
 
 app = Flask(__name__)
 
@@ -32,6 +32,13 @@ def get_analysis_IBM():
     breakdown = breakdown_argument(user_argument)
     ret = [eval, breakdown]
     return jsonify(ret)
+
+@app.route("/in_depth", methods=["POST"])
+def in_depth():
+    user_argument = request.form["user_argument"]
+    arg_score = float(request.form["arg_qual"])
+    feedback = get_feedback(user_argument, arg_score)
+    return jsonify(feedback)
 
 # Run application
 if __name__ == "__main__":

@@ -87,6 +87,7 @@
             <h2 id="output"></h2>
             <p id="qualitative"></p>
             <p id="arg_breakdown"></p>
+            <p id="feedback"></p>
         </div>
 
         <script>
@@ -106,12 +107,66 @@
                 return Math.round(number / increment) * increment;
             }
 
+            // First get analysis that takes less time, then get feedback
+            // that takes more time
+            async function fetch_in_order(user_argument, fetch_link) {
+                var quality;
+
+                // Base level analysis request
+                await fetch(fetch_link, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: `user_argument=${encodeURIComponent(user_argument)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Output argument quality
+                    quality = data[0];
+                    document.getElementById("output").innerHTML = "Argument Score: " + quality;
+                    document.getElementById("qualitative").innerHTML = "This argument is: " + argument_quality[round_to_nearest_20(quality * 100, 20)] + "/1";
+
+                    // Output argumeny attributes
+                    evals = data[1];
+                    eval_string = "<strong>Your argument contains:</strong><br><ul>";
+                    for (var i = 0; i < evals.length; i++) {
+                        if (evals[i]['score'] > 0.15) {
+                            eval_string += ("<li>" + evals[i]['label'] + " - " + arg_eval_meaning[evals[i]['label']] + "</li>");
+                        }
+                    }
+                    eval_string += "</ul>"
+                    document.getElementById("arg_breakdown").innerHTML = eval_string;
+                })
+                .catch(error => {
+                    alert("Error evaluating the argument: " + error);
+                });
+
+
+                // In depth feedback occurs after because it takes a lot longer
+                await fetch("/in_depth", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: `user_argument=${encodeURIComponent(user_argument)}&arg_qual=${encodeURIComponent(quality)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("feedback").innerHTML = "<strong>Feedback:</strong><br>" + data;
+                })
+                .catch(error => {
+                    alert("Error evaluating the argument: " + error);
+                });
+            }
+
             // Submit argument to backend and retrieve results
             document.getElementById("arg_form").addEventListener("submit", function(e) {
                 e.preventDefault();
                 document.getElementById("output").innerHTML = "Analyzing...";
-                document.getElementById("qualitative").innerHTML = "";
-                document.getElementById("arg_breakdown").innerHTML = "";
+                document.getElementById("qualitative").innerHTML = "...";
+                document.getElementById("arg_breakdown").innerHTML = "...";
+                document.getElementById("feedback").innerHTML = "...";
 
                 const user_argument = document.getElementById("user_argument").value;
 
@@ -124,36 +179,7 @@
                     fetch_link = "/get_analysis_IBM";
                 }
 
-                // Send POST request to the backend
-                fetch(fetch_link, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    },
-                    body: `user_argument=${encodeURIComponent(user_argument)}`
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Output argument quality
-                    quality = data[0];
-                    document.getElementById("output").innerHTML = "Argument Score: " + quality;
-                    document.getElementById("qualitative").innerHTML = "This argument is: " + argument_quality[round_to_nearest_20(quality * 100, 20)];
-
-                    // Output argumeny attributes
-                    evals = data[1];
-                    eval_string = "Your argument contains:<br><ul>";
-                    for (var i = 0; i < evals.length; i++) {
-                        if (evals[i]['score'] > 0.15) {
-                            eval_string += ("<li>" + evals[i]['label'] + " - " + arg_eval_meaning[evals[i]['label']] + "</li>");
-                        }
-                    }
-                    eval_string += "</ul>"
-                    document.getElementById("arg_breakdown").innerHTML = eval_string;
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    document.getElementById("output1").innerHTML = "Error: " + error;
-                });
+                fetch_in_order(user_argument, fetch_link);
             });
         </script>
     </body>

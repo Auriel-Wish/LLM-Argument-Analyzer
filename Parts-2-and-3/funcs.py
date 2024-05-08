@@ -3,6 +3,7 @@
 #
 # funcs.py
 # ----------------------------------------------------------------
+import torch
 from transformers import pipeline
 
 # evaluate the argument using a premade and pretrained HuggingFace model
@@ -57,4 +58,31 @@ def summarize(arg):
         result = (pipe(result))[0]['summary_text']
         words = result.split()
         
+    return result
+
+# Get more detailed argument feedback from a chatbot
+def get_feedback(arg, arg_score):
+    if arg_score < 0.5:
+        good_or_bad = "bad"
+    else:
+        good_or_bad = "good"
+    
+    pipe = pipeline("text-generation", model="TinyLlama/TinyLlama-1.1B-Chat-v1.0", torch_dtype=torch.bfloat16, device_map="auto")
+    
+    prompt = "Why is \"" + arg + "\" a " + good_or_bad + " argument?"
+    messages = [
+        {
+            "role": "system",
+            "content": "You are a chatbot who evaluates arguments",
+        },
+        {
+            "role": "user",
+            "content": prompt},
+    ]
+    input = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    result = pipe(input, max_new_tokens=256, do_sample=True, temperature=0.7, top_k=50, top_p=0.95)
+
+    result = result[0]["generated_text"]
+    result = result.split("|assistant|>\n")[1]
+
     return result
