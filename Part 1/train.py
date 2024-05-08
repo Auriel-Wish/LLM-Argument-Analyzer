@@ -2,12 +2,19 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trai
 from datasets import load_dataset
 
 fname = "arg_quality_rank_30k.csv"
-# use distilbert because it is smaller and faster than bert (another model)
+# out_dir = "Trained-Model"
+out_dir = "test_out_dir"
+
+# use distilbert because it is smaller and faster than bert
+# and is good for text classification
 model_name = "distilbert-base-uncased"
 
-# load in the dataset and get subset of it (3000 took multiple hours)
+# load in the dataset and get subset of it (3000 took 6 hours)
+# split dataset to have both training data and eval data.
+# Training data is used to train the model, eval data is used to test
+# the model's performance
 dataset = load_dataset('csv', data_files=fname, split='train')
-train_set = dataset.shuffle(seed=42).select(range(10))
+train_set = dataset.shuffle(seed=42).select(range(3000))
 train_set = train_set.train_test_split(test_size=0.1)
 
 print(train_set)
@@ -25,7 +32,11 @@ data_collator = DataCollatorWithPadding(tokenizer)
 # num_labels = 1 because the labels are continuous values [0, 1]
 # The labels are the weighted average value provided by IBM
 model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=1)
-training_args = TrainingArguments(output_dir="Trained-Model")
+training_args = TrainingArguments(
+    output_dir=out_dir,
+    load_best_model_at_end=True,
+    push_to_hub=True,
+)
 
 trainer = Trainer(
     model,
@@ -36,6 +47,7 @@ trainer = Trainer(
     tokenizer=tokenizer
 )
 trainer.train()
+trainer.push_to_hub("aurielwish")
 
-model.save_pretrained('./Trained-Model')
-trainer.tokenizer.save_pretrained('./Trained-Model')
+model.save_pretrained('./' + out_dir)
+trainer.tokenizer.save_pretrained('./' + out_dir)
