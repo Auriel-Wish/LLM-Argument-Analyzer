@@ -23,7 +23,7 @@ def eval_argument_premade(arg):
 
 # evaluate the argument using a premade model that was also trained on the IBM dataset
 def eval_argument_IBM(arg):
-    pipe = pipeline("text-classification", model="/Users/aurielwish/Desktop/Trial Project/Part 1/Trained-Model", return_all_scores=True)
+    pipe = pipeline("text-classification", model="aurielwish/trial-project", return_all_scores=True)
 
     # run argument through the model
     result = (pipe(arg))[0][0]
