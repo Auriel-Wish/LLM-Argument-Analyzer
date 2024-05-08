@@ -8,7 +8,7 @@ from transformers import pipeline
 # Initialize roberta-argument model. This model is pretrained specifically for
 # the task of evaluating argument quality.
 pipe = pipeline("text-classification", model="chkla/roberta-argument")
-filepath = 'IBM_Debater_(R)_arg_quality_rank_30k/arg_quality_rank_30k.csv'
+filepath = 'arg_quality_rank_30k.csv'
 
 def eval_argument(arg):
     # keep track of argument/argument quality pair
@@ -26,6 +26,7 @@ with open(filepath, 'r') as file:
     for i, row_data in enumerate(reader):
         if (i == 0):
             continue
-        if (i > 50):
+        if (i % 500 == 0):
+            print(eval_argument(row_data['text']))
+        if (i > 25000):
             break
-        print(eval_argument(row_data['argument']))

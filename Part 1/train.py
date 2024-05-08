@@ -17,8 +17,6 @@ dataset = load_dataset('csv', data_files=fname, split='train')
 train_set = dataset.shuffle(seed=42).select(range(3000))
 train_set = train_set.train_test_split(test_size=0.1)
 
-print(train_set)
-
 # tokenize the dataset (convert it to form that the model can use)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
@@ -38,6 +36,7 @@ training_args = TrainingArguments(
     push_to_hub=True,
 )
 
+# Setup the actual trainer
 trainer = Trainer(
     model,
     training_args,
@@ -49,5 +48,6 @@ trainer = Trainer(
 trainer.train()
 trainer.push_to_hub("aurielwish")
 
+# Save the model
 model.save_pretrained('./' + out_dir)
 trainer.tokenizer.save_pretrained('./' + out_dir)
