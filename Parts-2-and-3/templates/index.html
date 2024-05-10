@@ -82,7 +82,7 @@
         <h1>Argument Analyzer</h1>
 
         <!-- Choose which model to use -->
-        <div style="text-align: center; width: 100%">
+        <div style="text-align: center; width: 100%; margin-bottom: 20px;">
             <label class="model">
                 <input type="radio" name="model" value="premade"> Premade HuggingFace Model
             </label>
@@ -194,7 +194,7 @@
                 set_loading("2");
                 set_loading("3");
                 
-                all_tasks("2");
+                await all_tasks("2");
                 all_tasks("3");
 
                 compare();

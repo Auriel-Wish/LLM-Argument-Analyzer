@@ -94,18 +94,11 @@ def compare(arg1, arg2):
     prompt = "Compare the arguments: \"" + arg1 + "\" and \"" + arg2 + "\""
 
     messages = [
-        {
-            "role": "system",
-            "content": "You are a chatbot who compares 2 arguments against each other"
-        },
-        {
-            "role": "user",
-            "content": prompt
-        }
+        {"role": "user", "content": prompt}
     ]
 
     input = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-    result = pipe(input)
+    result = pipe(input, max_new_tokens=256, do_sample=True, temperature=0.7, top_k=50, top_p=0.95)
 
     result = result[0]["generated_text"]
     result = result.split("|assistant|>\n")[1]
