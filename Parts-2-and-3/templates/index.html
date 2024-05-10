@@ -18,6 +18,17 @@
                 text-align: center;
             }
 
+            .choose_num_args {
+                font-size: 30px;
+                padding: 20px;
+                border-radius: 10px;
+                background-color: white;
+                color: rgb(0, 36, 91);
+                width: 30%;
+                margin: auto;
+                cursor: pointer;
+            }
+
             #form_container {
                 margin-right: auto;
                 margin-left: auto;
@@ -37,10 +48,16 @@
                 margin-right: 20px;
             }
 
+            td {
+                vertical-align: top;
+                width: 50%;
+                padding: 10px;
+            }
+
             textarea {
                 border: 1px solid rgb(0, 36, 91);
                 border-radius: 10px;
-                width: 100%;
+                width: 90%;
                 padding: 10px;
             }
 
@@ -76,21 +93,80 @@
         
         <!-- Get user argument -->
         <div id="form_container">
-            <form id="arg_form">
-                <label for="user_argument" style="font-size: 25px">Argument:</label>
-                <br><br>
-                <textarea id="user_argument" rows="5" required></textarea>
-                <br>
-                <button type="submit">Submit</button>
-            </form>
+            <table style="width: 100%; margin-bottom: 30px;">
+                <tr style="text-align: center;">
+                    <td><span class="choose_num_args">One Argument</span></td>
+                    <td><span class="choose_num_args">Two Arguments</span></td>
+                </tr>
+            </table>
+            <div id="one_arg">
+                <form id="arg_form1">
+                    <label for="user_argument1" style="font-size: 25px">Argument:</label>
+                    <br><br>
+                    <textarea id="user_argument1" rows="5" style="width: 100%;" required></textarea>
+                    <br>
+                    <button type="submit">Submit</button>
+                </form>
 
-            <h2 id="output"></h2>
-            <p id="qualitative"></p>
-            <p id="arg_breakdown"></p>
-            <p id="feedback"></p>
+                <h2 id="output1"></h2>
+                <p id="qualitative1"></p>
+                <p id="arg_breakdown1"></p>
+                <p id="feedback1"></p>
+            </div>
+            <form id="two_arg">
+                <table style="width: 100%">
+                    <tr>
+                        <td>
+                            <label for="user_argument2" style="font-size: 25px">Argument 1:</label>
+                            <br><br>
+                            <textarea id="user_argument2" rows="5" required></textarea>
+                            <br>
+
+                            <h2 id="output2"></h2>
+                            <p id="qualitative2"></p>
+                            <p id="arg_breakdown2"></p>
+                        </td>
+                        <td>
+                            <label for="user_argument3" style="font-size: 25px">Argument 2:</label>
+                            <br><br>
+                            <textarea id="user_argument3" rows="5" required></textarea>
+                            <br>
+
+                            <h2 id="output3"></h2>
+                            <p id="qualitative3"></p>
+                            <p id="arg_breakdown3"></p>
+                        </td>
+                    </tr>
+                </table>
+                <div id="comparison" style="margin: auto; text-align: center; width: 60%"></div>
+                <button type="submit">Compare</button>
+            </form>
         </div>
 
         <script>
+            // Choose whether to evaluate 1 argument or compare 2 arguments
+            const num_args = document.querySelectorAll(".choose_num_args");
+            num_args.forEach((element) => {
+                element.addEventListener("click", function() {
+                    if (this.innerHTML == "One Argument") {
+                        document.getElementById("one_arg").style.display = "block";
+                        document.getElementById("two_arg").style.display = "none";
+                    }
+                    else {
+                        document.getElementById("one_arg").style.display = "none";
+                        document.getElementById("two_arg").style.display = "block";
+                    }
+
+                    num_args.forEach((el) => {
+                        el.style.opacity = 0.5;
+                    });
+
+                    this.style.opacity = 1;
+                });
+            });
+            num_args[0].click();
+
+            // Initially choose premade model
             (document.querySelectorAll('input[name="model"]'))[0].checked = true;
 
             // Classification to help interpret results from models
@@ -107,9 +183,56 @@
                 return Math.round(number / increment) * increment;
             }
 
+            // Submit argument to backend and retrieve results
+            document.getElementById("arg_form1").addEventListener("submit", function(e) {
+                e.preventDefault();
+                set_loading("1");
+                all_tasks("1");
+            });
+            document.getElementById("two_arg").addEventListener("submit", async function(e) {
+                e.preventDefault();
+                set_loading("2");
+                set_loading("3");
+                
+                all_tasks("2");
+                all_tasks("3");
+
+                compare();
+            });
+
+
+            // Signal to user that their argument is being processed
+            function set_loading(form_number) {
+                document.getElementById("output" + form_number).innerHTML = "Analyzing...";
+                document.getElementById("qualitative" + form_number).innerHTML = "[Quality loading]";
+                document.getElementById("arg_breakdown" + form_number).innerHTML = "[Breakdown loading]";
+                if (form_number == "1") {
+                    document.getElementById("feedback" + form_number).innerHTML = "[Feedback loading]";
+                }
+                else {
+                    document.getElementById("comparison").innerHTML = "[Comparison loading]";
+                }
+            }
+
+            // Choose which model to use and call fetch
+            function all_tasks(form_number) {
+                const user_argument = document.getElementById("user_argument" + form_number).value;
+
+                // Choose which model to use
+                fetch_link = "";
+                if ((document.querySelectorAll('input[name="model"]'))[0].checked) {
+                    fetch_link = "/get_analysis_premade";
+                }
+                else {
+                    fetch_link = "/get_analysis_IBM";
+                }
+
+                fetch_in_order(user_argument, fetch_link, form_number);
+            }
+
             // First get analysis that takes less time, then get feedback
             // that takes more time
-            async function fetch_in_order(user_argument, fetch_link) {
+            async function fetch_in_order(user_argument, fetch_link, form_number) {
                 var quality;
 
                 // Base level analysis request
@@ -124,8 +247,8 @@
                 .then(data => {
                     // Output argument quality
                     quality = data[0];
-                    document.getElementById("output").innerHTML = "Argument Score: " + quality;
-                    document.getElementById("qualitative").innerHTML = "This argument is: " + argument_quality[round_to_nearest_20(quality * 100, 20)] + "/1";
+                    document.getElementById("output" + form_number).innerHTML = "Argument Score: " + quality + "/1";
+                    document.getElementById("qualitative" + form_number).innerHTML = "This argument is: " + argument_quality[round_to_nearest_20(quality * 100, 20)];
 
                     // Output argumeny attributes
                     evals = data[1];
@@ -136,51 +259,53 @@
                         }
                     }
                     eval_string += "</ul>"
-                    document.getElementById("arg_breakdown").innerHTML = eval_string;
+                    document.getElementById("arg_breakdown" + form_number).innerHTML = eval_string;
                 })
                 .catch(error => {
-                    alert("Error evaluating the argument: " + error);
+                    alert(error);
                 });
 
 
                 // In depth feedback occurs after because it takes a lot longer
-                await fetch("/in_depth", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    },
-                    body: `user_argument=${encodeURIComponent(user_argument)}&arg_qual=${encodeURIComponent(quality)}`
-                })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("feedback").innerHTML = "<strong>Feedback:</strong><br>" + data;
-                })
-                .catch(error => {
-                    alert("Error evaluating the argument: " + error);
-                });
+                if (form_number == "1") {
+                    await fetch("/in_depth", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: `user_argument=${encodeURIComponent(user_argument)}&arg_qual=${encodeURIComponent(quality)}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("feedback" + form_number).innerHTML = "<strong>Feedback:</strong><br>" + data;
+                    })
+                    .catch(error => {
+                        alert(error);
+                    });
+                }
             }
 
-            // Submit argument to backend and retrieve results
-            document.getElementById("arg_form").addEventListener("submit", function(e) {
-                e.preventDefault();
-                document.getElementById("output").innerHTML = "Analyzing...";
-                document.getElementById("qualitative").innerHTML = "...";
-                document.getElementById("arg_breakdown").innerHTML = "...";
-                document.getElementById("feedback").innerHTML = "...";
+            // Compare the 2 inputted arguments
+            function compare() {
+                const user_argument2 = document.getElementById("user_argument2").value;
+                const user_argument3 = document.getElementById("user_argument3").value;
 
-                const user_argument = document.getElementById("user_argument").value;
-
-                // Choose which model to use
-                fetch_link = "";
-                if ((document.querySelectorAll('input[name="model"]'))[0].checked) {
-                    fetch_link = "/get_analysis_premade";
-                }
-                else {
-                    fetch_link = "/get_analysis_IBM";
-                }
-
-                fetch_in_order(user_argument, fetch_link);
-            });
+                fetch("/get_comparison", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: `user_argument2=${encodeURIComponent(user_argument2)}&user_argument3=${encodeURIComponent(user_argument3)}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("comparison").innerHTML = "<strong>Comparison:</strong><br>" + data;
+                    })
+                    .catch(error => {
+                        alert(error);
+                        document.getElementById("comparison").innerHTML = "<strong>Comparison:</strong><br>Error getting comparison. Inputs may not have made sense or were too complex";
+                });
+            }
         </script>
     </body>
 </html>

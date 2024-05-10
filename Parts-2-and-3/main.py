@@ -4,7 +4,7 @@
 # backend.py
 # ----------------------------------------------------------------
 from flask import Flask, request, jsonify, render_template
-from funcs import eval_argument_premade, eval_argument_IBM, breakdown_argument, summarize, get_feedback
+from funcs import eval_argument_premade, eval_argument_IBM, breakdown_argument, summarize, get_feedback, compare
 
 app = Flask(__name__)
 
@@ -39,6 +39,13 @@ def in_depth():
     arg_score = float(request.form["arg_qual"])
     feedback = get_feedback(user_argument, arg_score)
     return jsonify(feedback)
+
+@app.route("/get_comparison", methods=["POST"])
+def get_comparison():
+    user_argument2 = request.form["user_argument2"]
+    user_argument3 = request.form["user_argument3"]
+    comparison = compare(user_argument2, user_argument3)
+    return jsonify(comparison)
 
 # Run application
 if __name__ == "__main__":
