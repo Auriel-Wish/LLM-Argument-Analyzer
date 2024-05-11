@@ -13,11 +13,16 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
+@app.route("/summarize_arg", methods=["POST"])
+def summarize_arg():
+    user_argument = request.form["user_argument"]
+    ret = summarize(user_argument)
+    return jsonify(ret)
+
 # Get the argument and return its evaluation (model 1)
 @app.route("/get_analysis_premade", methods=["POST"])
 def get_analysis_premade():
     user_argument = request.form["user_argument"]
-    user_argument = summarize(user_argument)
     eval = eval_argument_premade(user_argument)
     breakdown = breakdown_argument(user_argument)
     ret = [eval, breakdown]
@@ -27,12 +32,12 @@ def get_analysis_premade():
 @app.route("/get_analysis_IBM", methods=["POST"])
 def get_analysis_IBM():
     user_argument = request.form["user_argument"]
-    user_argument = summarize(user_argument)
     eval = eval_argument_IBM(user_argument)
     breakdown = breakdown_argument(user_argument)
     ret = [eval, breakdown]
     return jsonify(ret)
 
+# Get more in dpeth analysis of argument from chatbot
 @app.route("/in_depth", methods=["POST"])
 def in_depth():
     user_argument = request.form["user_argument"]

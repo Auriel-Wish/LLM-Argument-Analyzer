@@ -46,19 +46,20 @@ def breakdown_argument(arg):
 
     return result
 
-# Summarize the input if the argument is too long. Summarize the summary
-# if that is also too long, and continue to do so until the argument length
-# can be inputted into the classification models.
+# Summarize the input if the argument is too long. This model best summaries
+# passages that are less than 512 tokens.
+# Limit number of words to 150 to try and limit response time for analysis.
 def summarize(arg):
     pipe = pipeline("summarization", model="Falconsai/text_summarization")
     
     words = arg.split()
     result = arg
-    while len(words) > 450:
-        result = (pipe(result))[0]['summary_text']
-        words = result.split()
+    was_changed = False
+    if len(words) > 150:
+        result = (pipe(arg, max_length = 150))[0]['summary_text']
+        was_changed = True
         
-    return result
+    return [result, was_changed]
 
 # Get more detailed argument feedback from a chatbot
 def get_feedback(arg, arg_score):
@@ -80,7 +81,15 @@ def get_feedback(arg, arg_score):
             "content": prompt
         }
     ]
+
+    # Not sure why we are not tokenizing but that's what the example said to do
     input = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+
+    # max_new_tokens: maximum number of words (technically tokens) that chatbot will generate
+    # do_sample=True: don't automatically choose the word with the highest probability - allow for "creativity" 
+    # top_k: only the 50 words with the highest probability can be chosen from
+    # top_p: acknowledge the words with the highest probability such that their sum is 0.95/1
+    # temperature: lower temperature leads to greater probability disparaty because the most likely words have higher probabilities than they would with higher temperature
     result = pipe(input, max_new_tokens=256, do_sample=True, temperature=0.7, top_k=50, top_p=0.95)
 
     result = result[0]["generated_text"]
@@ -94,6 +103,10 @@ def compare(arg1, arg2):
     prompt = "Compare the arguments: \"" + arg1 + "\" and \"" + arg2 + "\""
 
     messages = [
+        {
+            "role": "system",
+            "content": "You are a chatbot who compares and analyzes arguments",
+        },
         {"role": "user", "content": prompt}
     ]
 

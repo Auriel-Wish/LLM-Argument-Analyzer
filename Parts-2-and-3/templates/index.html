@@ -108,6 +108,7 @@
                     <button type="submit">Submit</button>
                 </form>
 
+                <p id="summary1"></p>
                 <h2 id="output1"></h2>
                 <p id="qualitative1"></p>
                 <p id="arg_breakdown1"></p>
@@ -121,7 +122,8 @@
                             <br><br>
                             <textarea id="user_argument2" rows="5" required></textarea>
                             <br>
-
+                            
+                            <p id="summary2"></p>
                             <h2 id="output2"></h2>
                             <p id="qualitative2"></p>
                             <p id="arg_breakdown2"></p>
@@ -132,6 +134,7 @@
                             <textarea id="user_argument3" rows="5" required></textarea>
                             <br>
 
+                            <p id="summary3"></p>
                             <h2 id="output3"></h2>
                             <p id="qualitative3"></p>
                             <p id="arg_breakdown3"></p>
@@ -184,21 +187,49 @@
             }
 
             // Submit argument to backend and retrieve results
-            document.getElementById("arg_form1").addEventListener("submit", function(e) {
+            document.getElementById("arg_form1").addEventListener("submit", async function(e) {
                 e.preventDefault();
                 set_loading("1");
-                all_tasks("1");
+                user_argument = await summarize("1");
+                all_tasks("1", user_argument);
             });
             document.getElementById("two_arg").addEventListener("submit", async function(e) {
                 e.preventDefault();
                 set_loading("2");
                 set_loading("3");
-                
-                await all_tasks("2");
-                all_tasks("3");
+                user_argument2 = await summarize("2");
+                user_argument3 = await summarize("3");
 
-                compare();
+                compare(user_argument2, user_argument3);
+                // Running them together seems to cause errors. Not sure why
+                all_tasks_helper(function() {all_tasks("3", user_argument3)}, user_argument2);
             });
+            // Run the analysis asynchronsously
+            function all_tasks_helper(callback, user_argument2) {
+                all_tasks("2", user_argument2);
+                setTimeout(() => {
+                    callback();
+                }, 1000);
+            }
+
+            async function summarize(form_number) {
+                const user_argument = document.getElementById("user_argument" + form_number).value;
+
+                // In depth feedback occurs after because it takes a lot longer
+                const response = await fetch("/summarize_arg", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: `user_argument=${encodeURIComponent(user_argument)}`
+                })
+                const data = await response.json();
+                if (data[1]) {
+                    document.getElementById("summary" + form_number).innerHTML = '<strong style="color: orange">Input was too long.</strong> Summarized argument to:<br>' + data[0];
+                }
+
+                return data[0];
+            }
 
 
             // Signal to user that their argument is being processed
@@ -206,6 +237,7 @@
                 document.getElementById("output" + form_number).innerHTML = "Analyzing...";
                 document.getElementById("qualitative" + form_number).innerHTML = "[Quality loading]";
                 document.getElementById("arg_breakdown" + form_number).innerHTML = "[Breakdown loading]";
+                document.getElementById("summary" + form_number).innerHTML = "";
                 if (form_number == "1") {
                     document.getElementById("feedback" + form_number).innerHTML = "[Feedback loading]";
                 }
@@ -215,9 +247,9 @@
             }
 
             // Choose which model to use and call fetch
-            function all_tasks(form_number) {
-                const user_argument = document.getElementById("user_argument" + form_number).value;
-
+            function all_tasks(form_number, user_argument) {
+                console.log("ALL TASKS: " + user_argument);
+                
                 // Choose which model to use
                 fetch_link = "";
                 if ((document.querySelectorAll('input[name="model"]'))[0].checked) {
@@ -286,10 +318,7 @@
             }
 
             // Compare the 2 inputted arguments
-            function compare() {
-                const user_argument2 = document.getElementById("user_argument2").value;
-                const user_argument3 = document.getElementById("user_argument3").value;
-
+            function compare(user_argument2, user_argument3) {
                 fetch("/get_comparison", {
                         method: "POST",
                         headers: {
