@@ -188,18 +188,6 @@
             return Math.round(number / increment) * increment;
         }
 
-        async function make_async() {
-            user_argument2 = await summarize("2").then(async () => {
-                await all_tasks("2", user_argument2);
-            });
-            user_argument3 = await summarize("3").then(async () => {
-                await all_tasks("3", user_argument3);
-            });
-            return new Promise((resolve, reject) => {
-                resolve(user_argument2, user);
-            })
-        }
-
         // Submit argument to backend and retrieve results
         document.getElementById("arg_form1").addEventListener("submit", async function (e) {
             e.preventDefault();
@@ -229,6 +217,7 @@
             });
         });
 
+        // summarize the input if it is too long
         async function summarize(form_number) {
             const user_argument = document.getElementById("user_argument" + form_number).value;
 
@@ -243,12 +232,11 @@
 
             const data = await response.json();
             if (data[1]) {
-                document.getElementById("summary" + form_number).innerHTML = '<strong style="color: black">Input was too long.</strong> Summarized argument to:<br>' + data[0];
+                document.getElementById("summary" + form_number).innerHTML = '<strong style="color: black">Input was too long. Summarized argument to:</strong><br>' + data[0];
             }
 
             return data[0];
         }
-
 
         // Signal to user that their argument is being processed
         function set_loading(form_number) {
