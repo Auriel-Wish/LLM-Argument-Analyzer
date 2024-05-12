@@ -221,7 +221,6 @@
         async function summarize(form_number) {
             const user_argument = document.getElementById("user_argument" + form_number).value;
 
-            // In depth feedback occurs after because it takes a lot longer
             const response = await fetch("/summarize_arg", {
                 method: "POST",
                 headers: {
