@@ -299,6 +299,7 @@
 
             // In depth feedback occurs after because it takes a lot longer
             if (form_number == "1") {
+                console.log("Getting in depth feeback")
                 const response2 = await fetch("/in_depth", {
                     method: "POST",
                     headers: {
@@ -313,6 +314,7 @@
 
         // Compare the 2 inputted arguments
         async function compare(user_argument2, user_argument3) {
+            console.log("Getting comparison")
             const response = await fetch("/get_comparison", {
                 method: "POST",
                 headers: {
