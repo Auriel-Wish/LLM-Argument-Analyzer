@@ -13,7 +13,7 @@ If the user chooses to analyze one argument, the output includes:
     <li>Components of the argument (such as conflict, rephrase, ...etc)</li>
     <li>Chatbot analysis of the argument that comments on why the argument is/isn't good</li>
 </ol>
-<br><br>
+<br>
 If the user chooses to analyze two arguments, the output includes:
 <ol>
     <li>A summary of the inputted arguments if they was longer than 150 words</li>
@@ -21,5 +21,4 @@ If the user chooses to analyze two arguments, the output includes:
     <li>Components of the arguments (such as conflict, rephrase, ...etc)</li>
     <li>Chatbot analysis that compares the two arguments against each other</li>
 </ol>
-<br>
-<strong>The chatbot model takes significantly longer to return results than the rest of the LLMs. On my computer, it can take up to a few minutes.</strong>
+<strong>The chatbot model takes significantly longer to return results than the rest of the LLMs. On my computer, it can take several minutes.</strong> I tried to reduce the time it took for the models to run by using ONNX Runtime, which is "a model accelerator that runs inference on CPUs by default." However, when converting the models to use this, I was given warnings that could lead to bigger problems, and unfortunately I did not have the time to dig deeper into this. The code for this optimization is commented out.

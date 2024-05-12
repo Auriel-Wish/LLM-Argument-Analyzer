@@ -8,6 +8,12 @@ from funcs import eval_argument_premade, eval_argument_IBM, breakdown_argument, 
 
 app = Flask(__name__)
 
+# model1 = load_model_classification("chkla/roberta-argument")
+# model2 = load_model_classification("aurielwish/trial-project")
+# model3 = load_model_classification("raruidol/ArgumentMining-EN-ARI-AIF-RoBERTa_L")
+# model4 = load_model_summarization("Falconsai/text_summarization")
+# model5 = load_model_generation("TinyLlama/TinyLlama-1.1B-Chat-v1.0")
+
 # Initial webpage
 @app.route("/")
 def index():
