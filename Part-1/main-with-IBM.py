@@ -3,18 +3,10 @@
 # ----------------------------------------------------------------
 
 import csv
-from transformers import AutoModelForSequenceClassification, AutoTokenizer, pipeline
+from transformers import pipeline
 
+pipe = pipeline("text-classification", model="aurielwish/trial-project")
 filepath = 'arg_quality_rank_30k.csv'
-
-# Load the saved model and tokenizer. This model was trained on a subset of the
-# IBM data.
-model_save_path = "Trained-Model"
-model = AutoModelForSequenceClassification.from_pretrained(model_save_path)
-tokenizer = AutoTokenizer.from_pretrained(model_save_path)
-
-# Create a pipeline for inference
-pipe = pipeline("text-classification", model=model, tokenizer=tokenizer)
 
 def eval_argument(arg):
     # keep track of argument/argument quality pair
@@ -22,7 +14,18 @@ def eval_argument(arg):
 
     # run argument through the model
     result = pipe(arg)
-    argument[arg] = round((result[0])['score'], 3)
+    arg_val = (result[0])['score']
+
+    # This model seems to score all arguments between around 0.6 and 0.75
+    # Scale the result to be equivalent but between 0 and 1.
+    arg_val -= 0.6
+    if arg_val < 0.01:
+        arg_val = 0
+    arg_val *= 9
+    if (arg_val > 1):
+        arg_val = 1
+
+    argument[arg] = round(arg_val, 2)
     
     return argument
 

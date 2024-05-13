@@ -57,8 +57,14 @@ def eval_argument_IBM(arg):
     result = (pipe(arg))[0][0]
     arg_val = result['score']
 
+    # This model seems to score all arguments between around 0.6 and 0.75
+    # Scale the result to be equivalent but between 0 and 1.
+    arg_val -= 0.6
     if arg_val < 0.01:
         arg_val = 0
+    arg_val *= 9
+    if (arg_val > 1):
+        arg_val = 1
 
     print("end eval")
     return (round(arg_val, 2))

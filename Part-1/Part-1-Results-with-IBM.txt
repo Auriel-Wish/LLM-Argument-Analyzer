@@ -1,50 +1,50 @@
-{"it should be a criminal offence because it did happen and it wasn't right": 0.636}
-{'if i think of we should prohibit flag burning for our well and safety': 0.59}
-{'you have to hit them in the pockets to get them to come to the table.': 0.648}
-{'school uniforms give all the students and even field to start out with.': 0.685}
-{'television is only interested in selling a product because of all of the advertisements that pay for the programs': 0.687}
-{'there are religious reasons to ban organ trade': 0.691}
-{'everyone should have the right to choose who represents them in a court': 0.695}
-{'if parents feel they are best placed to educate their kids, they should be allowed to': 0.689}
-{'if you can afford a better more personalised experience you should be allowed to pay for one.': 0.695}
-{'It has been tried for many years now, and alll the signs say it has failed': 0.591}
-{'assisted suicide is a crime and people involved should be sent to prison': 0.713}
-{'we should adopt a multi-party system because we need more than one opinion to round out solutions.': 0.683}
-{'making the use of public defenders madatory would increase the number of miscarriages of justice since the best and most able defence lawyers would go to areas of the law where they can make the most money': 0.685}
-{'child actors lose the sense of a proper childhood.': 0.667}
-{'without child actors, there will be less movies and tv shows for children to enjoy. talented children may not develop a love for acting if they can never pursue it at an early age.': 0.704}
-{'we should end mandatory retirement because is important in economics high': 0.64}
-{"legalizing the organ trade will help to save the lives of large numbers of people that current don't have access to organs they need to stay alive": 0.722}
-{'we should get rid of pride parades altogether as there should not be a celebration because you happen to like the same sex or believe you are the opposite sex.': 0.691}
-{'The penal system today does little to rehabilitate first time offenders, in fact jail time often hardens individuals and entrenches them in a life of crime; this law preys on the weak instead of helping them.': 0.722}
-{'closing guantanamo bay frees inmates who have been held without being charged with a crime, which is illegal in the us': 0.702}
-{"foster carers don't really care about the children, they just do it for the government paycheck.": 0.689}
-{'zoos help protect animals that are in danger': 0.724}
-{"naturopathy is less expensive for people that don't have medical insurance.": 0.717}
-{'entrapment is a helpful tool in keeping crime of the streets': 0.677}
-{'intelligence tests provide the individual with a vision of their intellectual abilities to help them focus their attitudes causing more benefits than harm': 0.702}
-{'we should not limit executive compensation because the workers deserve it': 0.633}
-{'targeted killing is useless and just unfair, no violence should ever be allowed': 0.69}
-{'The foster care system is understaffed, and its social workers are overwhelmed and exhausted.': 0.723}
-{'people should adopt children that desperately need a home instead of feeding their ego by having a child that is genetically connected to them': 0.701}
-{'we should keep economic sanctions to keep trade in check': 0.693}
-{'payday loans target the most desperate and vulnerable in society and is a legalized form of loan-sharking': 0.724}
-{'human cloning can bring about many medical breakthroughs.': 0.715}
-{'social media is a great platform to connect and socialize with friends and family.it has become a substitute for newspaper and is very reliable.': 0.716}
-{'the ban of child actors would have a very negative effect on the entertainment industry.': 0.726}
-{'a multi-party system would bring more choices for people to speak up and vote.': 0.714}
-{'people should have the right to end their suffering if they so choose. it can be done in a controlled and supervised way to account for any risks.': 0.72}
-{'wikipedia is too often edited by unreliable contributors and therefore is not quality enough to consider funding.': 0.7}
-{'student loans are such a burden on people that offering a subsidy would alleviate so many problems.  we should do this soon.': 0.713}
-{'zoos often house injured animals that would be unable to survive in the wild': 0.716}
-{'missionaries do many good any charitable acts in countries with many living in poverty.': 0.629}
-{'many innocent people lost their lives in the holocaust. denying it happened is an insult to their families and the survivors.': 0.693}
-{'affirmative action is incredibly important to ensure visibility and equality are strived for, in a society where systemic racism, sexism and homophobia are ingrained in a systems of commerce.': 0.711}
-{"it would stop companies selling customer data without their knowledge and as a result people won't be bothered with unwanted calls.": 0.715}
-{'human cloning not only can aid in securing the longevity of a familial line but aid in research to target diseases that can find a cure.': 0.723}
-{'embryonic stem cell research can lead to life saving breakthroughs and it is our moral imperative to accelerate that.': 0.721}
-{'research shows that smoking one joint is as damaging to the lungs as five tobacco cigarettes because marijuana may contain five times as much carbon monoxide concentration and three times as much resin as tobacco': 0.711}
-{'payday loans should not be banned as they provide a means for someone needed a quick loan.': 0.709}
-{'libertarianism should be adopted as it will give more freedom to people to live their lives as they wish.': 0.718}
-{'foster care provides a way to remove children from abusive homes': 0.727}
-{'austerity regimes reduce government spending and help to reduce the deficit': 0.72}
+{"it should be a criminal offence because it did happen and it wasn't right": 0.64}
+{'if i think of we should prohibit flag burning for our well and safety': 0.27}
+{'you have to hit them in the pockets to get them to come to the table.': 0}
+{'school uniforms give all the students and even field to start out with.': 0.71}
+{'television is only interested in selling a product because of all of the advertisements that pay for the programs': 0.28}
+{'there are religious reasons to ban organ trade': 0.42}
+{'everyone should have the right to choose who represents them in a court': 0.84}
+{'if parents feel they are best placed to educate their kids, they should be allowed to': 0.81}
+{'if you can afford a better more personalised experience you should be allowed to pay for one.': 0.85}
+{'It has been tried for many years now, and alll the signs say it has failed': 0}
+{'assisted suicide is a crime and people involved should be sent to prison': 0.97}
+{'we should adopt a multi-party system because we need more than one opinion to round out solutions.': 0.96}
+{'making the use of public defenders madatory would increase the number of miscarriages of justice since the best and most able defence lawyers would go to areas of the law where they can make the most money': 0.77}
+{'child actors lose the sense of a proper childhood.': 0.96}
+{'without child actors, there will be less movies and tv shows for children to enjoy. talented children may not develop a love for acting if they can never pursue it at an early age.': 0.91}
+{'we should end mandatory retirement because is important in economics high': 0.5}
+{"legalizing the organ trade will help to save the lives of large numbers of people that current don't have access to organs they need to stay alive": 1}
+{'we should get rid of pride parades altogether as there should not be a celebration because you happen to like the same sex or believe you are the opposite sex.': 0.81}
+{'The penal system today does little to rehabilitate first time offenders, in fact jail time often hardens individuals and entrenches them in a life of crime; this law preys on the weak instead of helping them.': 1}
+{'closing guantanamo bay frees inmates who have been held without being charged with a crime, which is illegal in the us': 0.94}
+{"foster carers don't really care about the children, they just do it for the government paycheck.": 0.85}
+{'zoos help protect animals that are in danger': 1}
+{"naturopathy is less expensive for people that don't have medical insurance.": 1}
+{'entrapment is a helpful tool in keeping crime of the streets': 0.78}
+{'intelligence tests provide the individual with a vision of their intellectual abilities to help them focus their attitudes causing more benefits than harm': 1}
+{'we should not limit executive compensation because the workers deserve it': 0.36}
+{'targeted killing is useless and just unfair, no violence should ever be allowed': 0.94}
+{'The foster care system is understaffed, and its social workers are overwhelmed and exhausted.': 1}
+{'people should adopt children that desperately need a home instead of feeding their ego by having a child that is genetically connected to them': 0.83}
+{'we should keep economic sanctions to keep trade in check': 0.64}
+{'payday loans target the most desperate and vulnerable in society and is a legalized form of loan-sharking': 1}
+{'human cloning can bring about many medical breakthroughs.': 1}
+{'social media is a great platform to connect and socialize with friends and family.it has become a substitute for newspaper and is very reliable.': 1.0}
+{'the ban of child actors would have a very negative effect on the entertainment industry.': 1}
+{'a multi-party system would bring more choices for people to speak up and vote.': 1}
+{'people should have the right to end their suffering if they so choose. it can be done in a controlled and supervised way to account for any risks.': 1}
+{'wikipedia is too often edited by unreliable contributors and therefore is not quality enough to consider funding.': 0.83}
+{'student loans are such a burden on people that offering a subsidy would alleviate so many problems.  we should do this soon.': 1}
+{'zoos often house injured animals that would be unable to survive in the wild': 1}
+{'missionaries do many good any charitable acts in countries with many living in poverty.': 0.96}
+{'many innocent people lost their lives in the holocaust. denying it happened is an insult to their families and the survivors.': 0.88}
+{'affirmative action is incredibly important to ensure visibility and equality are strived for, in a society where systemic racism, sexism and homophobia are ingrained in a systems of commerce.': 1}
+{"it would stop companies selling customer data without their knowledge and as a result people won't be bothered with unwanted calls.": 0.98}
+{'human cloning not only can aid in securing the longevity of a familial line but aid in research to target diseases that can find a cure.': 1}
+{'embryonic stem cell research can lead to life saving breakthroughs and it is our moral imperative to accelerate that.': 1}
+{'research shows that smoking one joint is as damaging to the lungs as five tobacco cigarettes because marijuana may contain five times as much carbon monoxide concentration and three times as much resin as tobacco': 0.83}
+{'payday loans should not be banned as they provide a means for someone needed a quick loan.': 1}
+{'libertarianism should be adopted as it will give more freedom to people to live their lives as they wish.': 1}
+{'foster care provides a way to remove children from abusive homes': 0.98}
+{'austerity regimes reduce government spending and help to reduce the deficit': 1}
