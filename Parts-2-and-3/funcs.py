@@ -5,7 +5,7 @@
 # ----------------------------------------------------------------
 import torch
 from transformers import pipeline, AutoTokenizer
-from optimum.onnxruntime import ORTModelForSequenceClassification, ORTModelForSeq2SeqLM, ORTModelForCausalLM
+# from optimum.onnxruntime import ORTModelForSequenceClassification, ORTModelForSeq2SeqLM, ORTModelForCausalLM
 
 # In theory, these functions would make the models run better on a CPU.
 # I did not have time to figure this part and disect the warnings, so for now it is not implemented.
